@@ -54,15 +54,20 @@ selectItems.forEach(item => {
 
 const filterItems = document.querySelectorAll("[data-filter-item]");
 
+const normalizeText = (text) => text.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+
 const filterFunc = function (selectedValue) {
+  let normalizedSelected = normalizeText(selectedValue);
+
   filterItems.forEach(item => {
-    if (selectedValue === "all" || selectedValue === item.dataset.category) {
+    let normalizedCategory = normalizeText(item.dataset.category);
+    if (normalizedSelected === "todos" || normalizedSelected === normalizedCategory) {
       item.classList.add("active");
     } else {
       item.classList.remove("active");
     }
   });
-}
+};
 
 let lastClickedBtn = filterBtn[0];
 
